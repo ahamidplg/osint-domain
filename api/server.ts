@@ -1,7 +1,6 @@
 import express from "express";
 import * as cheerio from "cheerio";
 import axios from "axios";
-import whois from "whois-json";
 import dns from "dns/promises";
 
 const app = express();
@@ -10,16 +9,21 @@ app.use(express.json());
 
 // API Routes
 
-// WHOIS lookup
+// WHOIS lookup (Sudah pakai REST API agar tidak diblokir Vercel)
 app.post("/api/whois", async (req, res) => {
   const { domain } = req.body;
   if (!domain) return res.status(400).json({ error: "Domain is required" });
+  
   try {
-    const result = await whois(domain);
-    res.json(result);
+    const { data } = await axios.get(`https://networkcalc.com/api/dns/whois/${domain}`);
+    if (data && data.whois) {
+       res.json(data.whois);
+    } else {
+       res.json({ status: "No data found", domain });
+    }
   } catch (error) {
-    console.error("WHOIS error:", error);
-    res.status(500).json({ error: "WHOIS lookup failed" });
+    console.error("WHOIS API error:", error);
+    res.status(500).json({ error: "WHOIS lookup failed via REST" });
   }
 });
 
@@ -46,13 +50,11 @@ app.post("/api/scrape", async (req, res) => {
   let { url } = req.body;
   if (!url) return res.status(400).json({ error: "URL is required" });
   
-  // Simple normalization
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     url = 'https://' + url;
   }
 
   try {
-    // Validate URL format
     new URL(url);
   } catch (e) {
     return res.status(400).json({ error: "Invalid URL format. Please include protocol (http/https)." });
@@ -95,5 +97,5 @@ app.get("/api/geoip/:ip", async (req, res) => {
   }
 });
 
-// Export the Express app as a serverless function for Vercel
+// Export untuk Vercel
 export default app;
