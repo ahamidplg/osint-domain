@@ -1,0 +1,6 @@
+{
+  "name": "Advanced OSINT Dashboard",
+  "description": "A comprehensive reconnaissance and open-source intelligence tool for domain, social, and web analysis with embedded mapping capabilities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

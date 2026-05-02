@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-brand: #0891b2;
+  --color-brand-muted: rgba(8, 145, 178, 0.1);
+  --color-surface: #0a0a0c;
+  --color-panel: #0f1115;
+  --color-border-subtle: #1e293b;
+  --color-border-deep: #0f172a;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-slate-300 font-sans;
+  }
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.terminal-scroll::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 2px;
+}
+
+.glass-panel {
+  @apply bg-[#14161b] border border-slate-800 rounded-sm shadow-sm;
+}
+
+.map-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(80%) contrast(90%);
+}
+
+.leaflet-container {
+  background: #0d0e12 !important;
+}
+
+.dot-grid {
+  background-image: radial-gradient(#2d3748 1px, transparent 1px);
+  background-size: 24px 24px;
+}
